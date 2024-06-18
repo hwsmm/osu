@@ -20,7 +20,7 @@ namespace osu.Game.Audio.Effects
         /// </summary>
         public bool IsAttached { get; private set; }
 
-        private readonly AudioMixer mixer;
+        private readonly AudioEffect effect;
         private readonly BQFParameters filter;
         private readonly BQFType type;
 
@@ -49,8 +49,9 @@ namespace osu.Game.Audio.Effects
         /// <param name="type">The type of filter (e.g. LowPass, HighPass, etc)</param>
         public AudioFilter(AudioMixer mixer, BQFType type = BQFType.LowPass)
         {
-            this.mixer = mixer;
             this.type = type;
+
+            effect = mixer.GetNewEffect();
 
             filter = new BQFParameters
             {
@@ -108,7 +109,9 @@ namespace osu.Game.Audio.Effects
             ensureAttached();
 
             filter.fCenter = Cutoff;
-            mixer.UpdateEffect(filter);
+
+            effect.EffectParameter = filter;
+            effect.Apply();
         }
 
         private void ensureAttached()
@@ -116,7 +119,7 @@ namespace osu.Game.Audio.Effects
             if (IsAttached)
                 return;
 
-            mixer.AddEffect(filter);
+            effect.Apply();
             IsAttached = true;
         }
 
@@ -125,7 +128,7 @@ namespace osu.Game.Audio.Effects
             if (!IsAttached)
                 return;
 
-            mixer.RemoveEffect(filter);
+            effect.Remove();
             IsAttached = false;
         }
 
