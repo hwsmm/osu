@@ -32,7 +32,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
         private FillFlowContainer<SettingsSlider<float>> scalingSettings = null!;
         private SettingsSlider<float> dimSlider = null!;
 
-        private readonly Bindable<Display> currentDisplay = new Bindable<Display>();
+        private readonly Bindable<Display?> currentDisplay = new Bindable<Display?>();
 
         private Bindable<ScalingMode> scalingMode = null!;
         private Bindable<Size> sizeFullscreen = null!;
@@ -49,7 +49,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
         private IWindow? window;
 
         private SettingsDropdown<Size> resolutionDropdown = null!;
-        private SettingsDropdown<Display> displayDropdown = null!;
+        private SettingsDropdown<Display?> displayDropdown = null!;
         private SettingsDropdown<WindowMode> windowModeDropdown = null!;
         private SettingsCheckbox minimiseOnFocusLossCheckbox = null!;
         private SettingsCheckbox safeAreaConsiderationsCheckbox = null!;
@@ -359,15 +359,18 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
             public override LocalisableString TooltipText => base.TooltipText + "x";
         }
 
-        private partial class DisplaySettingsDropdown : SettingsDropdown<Display>
+        private partial class DisplaySettingsDropdown : SettingsDropdown<Display?>
         {
-            protected override OsuDropdown<Display> CreateDropdown() => new DisplaySettingsDropdownControl();
+            protected override OsuDropdown<Display?> CreateDropdown() => new DisplaySettingsDropdownControl();
 
             private partial class DisplaySettingsDropdownControl : DropdownControl
             {
-                protected override LocalisableString GenerateItemText(Display item)
+                protected override LocalisableString GenerateItemText(Display? item)
                 {
-                    return $"{item.Index}: {item.Name} ({item.Bounds.Width}x{item.Bounds.Height})";
+                    if (item == null)
+                        return "Not available";
+                    else
+                        return $"{item.Index}: {item.Name} ({item.Bounds.Width}x{item.Bounds.Height})";
                 }
             }
         }
@@ -397,7 +400,7 @@ namespace osu.Game.Overlays.Settings.Sections.Graphics
         /// This helps to avoid a bindable/event feedback loop, in which a resolution change
         /// would trigger a display "change", which would in turn reset resolution again.
         /// </summary>
-        private class DisplayListComparer : IEqualityComparer<Display>
+        private class DisplayListComparer : IEqualityComparer<Display?>
         {
             public static readonly DisplayListComparer DEFAULT = new DisplayListComparer();
 
