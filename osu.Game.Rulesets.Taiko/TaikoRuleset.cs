@@ -8,6 +8,7 @@ using osu.Framework.Graphics;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Localisation;
+using osu.Framework.Platform.SDL3;
 using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.Legacy;
 using osu.Game.Graphics;
@@ -71,11 +72,11 @@ namespace osu.Game.Rulesets.Taiko
         public override IEnumerable<KeyBinding> GetDefaultKeyBindings(int variant = 0) => new[]
         {
             new KeyBinding(InputKey.MouseRight, TaikoAction.LeftRim),
-            new KeyBinding(InputKey.D, TaikoAction.LeftRim),
+            new KeyBinding(InputKey.D.ToPositionalKey(), TaikoAction.LeftRim),
             new KeyBinding(InputKey.MouseLeft, TaikoAction.LeftCentre),
-            new KeyBinding(InputKey.F, TaikoAction.LeftCentre),
-            new KeyBinding(InputKey.J, TaikoAction.RightCentre),
-            new KeyBinding(InputKey.K, TaikoAction.RightRim),
+            new KeyBinding(InputKey.F.ToPositionalKey(), TaikoAction.LeftCentre),
+            new KeyBinding(InputKey.J.ToPositionalKey(), TaikoAction.RightCentre),
+            new KeyBinding(InputKey.K.ToPositionalKey(), TaikoAction.RightRim),
         };
 
         public override IEnumerable<Mod> ConvertFromLegacyMods(LegacyMods mods)

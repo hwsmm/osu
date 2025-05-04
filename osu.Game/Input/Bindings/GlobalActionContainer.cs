@@ -8,6 +8,7 @@ using osu.Framework.Input;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
 using osu.Framework.Localisation;
+using osu.Framework.Platform.SDL3;
 using osu.Game.Localisation;
 
 namespace osu.Game.Input.Bindings
@@ -170,9 +171,9 @@ namespace osu.Game.Input.Bindings
         {
             new KeyBinding(InputKey.Space, GlobalAction.SkipCutscene),
             new KeyBinding(InputKey.ExtraMouseButton2, GlobalAction.SkipCutscene),
-            new KeyBinding(InputKey.Tilde, GlobalAction.QuickRetry),
+            new KeyBinding(InputKey.Tilde.ToPositionalKey(), GlobalAction.QuickRetry),
             new KeyBinding(new[] { InputKey.Control, InputKey.R }, GlobalAction.QuickRetry),
-            new KeyBinding(new[] { InputKey.Control, InputKey.Tilde }, GlobalAction.QuickExit),
+            new KeyBinding(new[] { InputKey.Control, InputKey.Tilde.ToPositionalKey() }, GlobalAction.QuickExit),
             new KeyBinding(new[] { InputKey.F3 }, GlobalAction.DecreaseScrollSpeed),
             new KeyBinding(new[] { InputKey.F4 }, GlobalAction.IncreaseScrollSpeed),
             new KeyBinding(new[] { InputKey.Shift, InputKey.Tab }, GlobalAction.ToggleInGameInterface),

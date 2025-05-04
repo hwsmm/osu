@@ -8,6 +8,7 @@ using osu.Framework.Graphics.Containers;
 using osu.Framework.Graphics.Sprites;
 using osu.Framework.Input.Bindings;
 using osu.Framework.Localisation;
+using osu.Framework.Platform.SDL3;
 using osu.Game.Beatmaps;
 using osu.Game.Beatmaps.Legacy;
 using osu.Game.Graphics;
@@ -55,11 +56,11 @@ namespace osu.Game.Rulesets.Catch
 
         public override IEnumerable<KeyBinding> GetDefaultKeyBindings(int variant = 0) => new[]
         {
-            new KeyBinding(InputKey.Z, CatchAction.MoveLeft),
-            new KeyBinding(InputKey.Left, CatchAction.MoveLeft),
-            new KeyBinding(InputKey.X, CatchAction.MoveRight),
-            new KeyBinding(InputKey.Right, CatchAction.MoveRight),
-            new KeyBinding(InputKey.Shift, CatchAction.Dash),
+            new KeyBinding(InputKey.Z.ToPositionalKey(), CatchAction.MoveLeft),
+            new KeyBinding(InputKey.Left.ToPositionalKey(), CatchAction.MoveLeft),
+            new KeyBinding(InputKey.X.ToPositionalKey(), CatchAction.MoveRight),
+            new KeyBinding(InputKey.Right.ToPositionalKey(), CatchAction.MoveRight),
+            new KeyBinding(InputKey.Shift.ToPositionalKey(), CatchAction.Dash),
             new KeyBinding(InputKey.MouseLeft, CatchAction.Dash),
         };
 

@@ -5,9 +5,10 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
+using osu.Framework.Input.Bindings;
 using osu.Framework.Input.Events;
+using osu.Framework.Platform.SDL3;
 using osu.Game.Rulesets.Mods;
-using osuTK.Input;
 
 namespace osu.Game.Overlays.Mods.Input
 {
@@ -16,18 +17,18 @@ namespace osu.Game.Overlays.Mods.Input
     /// </summary>
     public class ClassicModHotkeyHandler : IModHotkeyHandler
     {
-        private static readonly Dictionary<Key, Type[]> mod_type_lookup = new Dictionary<Key, Type[]>
+        private readonly Dictionary<InputKey, Type[]> modTypeLookup = new Dictionary<InputKey, Type[]>
         {
-            [Key.Q] = new[] { typeof(ModEasy) },
-            [Key.W] = new[] { typeof(ModNoFail) },
-            [Key.E] = new[] { typeof(ModHalfTime), typeof(ModDaycore) },
-            [Key.A] = new[] { typeof(ModHardRock) },
-            [Key.S] = new[] { typeof(ModSuddenDeath), typeof(ModPerfect) },
-            [Key.D] = new[] { typeof(ModDoubleTime), typeof(ModNightcore) },
-            [Key.F] = new[] { typeof(ModHidden) },
-            [Key.G] = new[] { typeof(ModFlashlight) },
-            [Key.Z] = new[] { typeof(ModRelax) },
-            [Key.V] = new[] { typeof(ModAutoplay), typeof(ModCinema) }
+            [InputKey.Q.ToPositionalKey()] = new[] { typeof(ModEasy) },
+            [InputKey.W.ToPositionalKey()] = new[] { typeof(ModNoFail) },
+            [InputKey.E.ToPositionalKey()] = new[] { typeof(ModHalfTime), typeof(ModDaycore) },
+            [InputKey.A.ToPositionalKey()] = new[] { typeof(ModHardRock) },
+            [InputKey.S.ToPositionalKey()] = new[] { typeof(ModSuddenDeath), typeof(ModPerfect) },
+            [InputKey.D.ToPositionalKey()] = new[] { typeof(ModDoubleTime), typeof(ModNightcore) },
+            [InputKey.F.ToPositionalKey()] = new[] { typeof(ModHidden) },
+            [InputKey.G.ToPositionalKey()] = new[] { typeof(ModFlashlight) },
+            [InputKey.Z.ToPositionalKey()] = new[] { typeof(ModRelax) },
+            [InputKey.V.ToPositionalKey()] = new[] { typeof(ModAutoplay), typeof(ModCinema) }
         };
 
         private readonly bool allowIncompatibleSelection;
@@ -39,7 +40,7 @@ namespace osu.Game.Overlays.Mods.Input
 
         public bool HandleHotkeyPressed(KeyDownEvent e, IEnumerable<ModState> availableMods)
         {
-            if (!mod_type_lookup.TryGetValue(e.Key, out var typesToMatch))
+            if (!modTypeLookup.TryGetValue(KeyCombination.FromKey(e.Key), out var typesToMatch))
                 return false;
 
             var matchingMods = availableMods.Where(modState => matches(modState, typesToMatch) && modState.Visible).ToArray();
